@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/hakan4/LineGraphKit.git' }
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'LineGraphKit/LineGraphKit/*.swift'
+  s.source_files = 'LineGraphKit/LineGraphKit/**/*.swift'
 
   s.requires_arc = true
 end
