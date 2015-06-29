@@ -16,6 +16,7 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     private var graphLine: [[Double]]!
     private var yearLine: [[Double]]!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         graphLine = [[1,5,6,2,4,3,8,4,3,2,5,7,8], reverse([1,5,6,2,4,3,8,4,3,2,5,7,8]), [14,3,12,5,7,18], [6,2,3,5,2,7], [1,10,1]]
