@@ -14,6 +14,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "81B465FE1B40275F001CFA99"
+               BuildableName = "LineGraphKit.framework"
+               BlueprintName = "LineGraphKit"
+               ReferencedContainer = "container:../LineGraphKit/LineGraphKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "81B466091B40275F001CFA99"
+               BuildableName = "LineGraphKitTests.xctest"
+               BlueprintName = "LineGraphKitTests"
+               ReferencedContainer = "container:../LineGraphKit/LineGraphKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8137378E1B402B32003AF9DE"
                BuildableName = "LineGraphKitDemo.app"
                BlueprintName = "LineGraphKitDemo"

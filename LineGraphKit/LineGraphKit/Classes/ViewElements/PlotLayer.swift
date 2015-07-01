@@ -18,7 +18,7 @@ class PlotLayer: CALayer {
         super.init(coder: aDecoder)
     }
     
-    init!(layer: AnyObject!) {
+    override init!(layer: AnyObject!) {
         super.init(layer: layer)
         if let plotLayer = layer as? PlotLayer {
         }
