@@ -18,6 +18,12 @@ class PlotLayer: CALayer {
         super.init(coder: aDecoder)
     }
     
+    init!(layer: AnyObject!) {
+        super.init(layer: layer)
+        if let plotLayer = layer as? PlotLayer {
+        }
+    }
+    
     func addLineLayer(lineLayer: LineLayer) {
         lineLayer.frame = bounds
         addSublayer(lineLayer)
