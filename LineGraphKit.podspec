@@ -11,7 +11,4 @@ Pod::Spec.new do |s|
   s.source_files = 'LineGraphKit/LineGraphKit/**/*.swift'
 
   s.requires_arc = true
-s.subspec 'Network' do |ns|
-ns.dependency       'Alamofire'
-end
 end
