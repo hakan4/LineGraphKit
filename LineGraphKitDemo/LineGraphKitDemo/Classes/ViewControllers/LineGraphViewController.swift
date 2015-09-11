@@ -19,7 +19,8 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        graphLine = [[1,5,6,2,4,3,8,4,3,2,5,7,8], reverse([1,5,6,2,4,3,8,4,3,2,5,7,8]), [14,3,12,5,7,18], [6,2,3,5,2,7], [1,10,1]]
+        lineGraph.datasource = self
+        graphLine = [[1,5,6,2,4,3,8,4,3,2,5,7,8], Array([1,5,6,2,4,3,8,4,3,2,5,7,8].reverse()), [14,3,12,5,7,18], [6,2,3,5,2,7], [1,10,1]]
         yearLine = [[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2005,2006,2007,2008,2009,2010], [2009,2010,2011,2012,2013,2014],[2000,2010,2011]]
         
 /*        graphLine = [[1,2,1,2,1,2,1,2]]
@@ -32,24 +33,24 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
         lineGraph.drawGraph()
     }
     
-    func numberOfLines(#lineGraph: LineGraph) -> Int {
+    func numberOfLines(lineGraph lineGraph: LineGraph) -> Int {
         return graphLine.count
     }
     
-    func lineGraph(#lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+    func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
         return graphLine[index].count
     }
 
     
-    func lineGraph(#lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+    func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
         return GraphPoint(x: yearLine[index][position], y: graphLine[index][position])
     }
     
-    func lineGraph(#lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+    func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
         return 3
     }
     
-    func lineGraph(#lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+    func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
         return UIColor.randomColor()
     }
 

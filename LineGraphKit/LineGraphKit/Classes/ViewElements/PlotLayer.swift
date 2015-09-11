@@ -14,13 +14,13 @@ class PlotLayer: CALayer {
         super.init()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init!(layer: AnyObject!) {
+    override init(layer: AnyObject) {
         super.init(layer: layer)
-        if let plotLayer = layer as? PlotLayer {
+        if let _ = layer as? PlotLayer {
         }
     }
     
@@ -30,8 +30,8 @@ class PlotLayer: CALayer {
     }
     
     func clearLineLayers() {
-        if let subs = sublayers as? [CALayer] {
-            for layer in sublayers {
+        if let subs = sublayers {
+            for layer in subs {
                 if let sublayer = layer as? LineLayer {
                     sublayer.removeFromSuperlayer()
                 }

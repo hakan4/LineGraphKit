@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class GraphPoint: Printable, Equatable {
+public class GraphPoint: CustomStringConvertible, Equatable {
     final public var x: Double = 0.0
     final public var y: Double = 0.0
     

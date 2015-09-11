@@ -12,7 +12,7 @@ import LineGraphKit
 
 class LineGraphTests: XCTestCase {
 
-    @objc class MockedLineGraphDataSource: LineGraphDatasource {
+    class MockedLineGraphDataSource: LineGraphDatasource {
         private var xValues: [[Double]]!
         private var yValues: [[Double]]!
         
@@ -21,19 +21,19 @@ class LineGraphTests: XCTestCase {
             self.yValues = yValues
         }
         
-        func lineGraph(#lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+        func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
             return 0
         }
-        func lineGraph(#lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+        func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
             return UIColor.redColor()
         }
-        func numberOfLines(#lineGraph: LineGraph) -> Int {
+        func numberOfLines(lineGraph lineGraph: LineGraph) -> Int {
             return xValues.count
         }
-        func lineGraph(#lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+        func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
             return xValues[index].count
         }
-        func lineGraph(#lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+        func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
             return GraphPoint(x: xValues[index][position], y: yValues[index][position])
         }
     }

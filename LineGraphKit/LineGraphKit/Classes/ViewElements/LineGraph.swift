@@ -8,12 +8,12 @@
 
 import UIKit
 
-@objc public protocol LineGraphDatasource: class {
-    func numberOfLines(#lineGraph: LineGraph) -> Int
-    func lineGraph(#lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
-    func lineGraph(#lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
-    func lineGraph(#lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
-    optional func lineGraph(#lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
+public protocol LineGraphDatasource: class {
+    func numberOfLines(lineGraph lineGraph: LineGraph) -> Int
+    func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
+    func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
+    func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
+    func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
 }
 
 
@@ -26,7 +26,7 @@ import UIKit
     private let defaultMarginTop: CGFloat = 20.0
     private let defaultMarginBottom: CGFloat = 20.0
 
-    @IBOutlet final public weak var datasource: LineGraphDatasource?
+    public final  weak var datasource: LineGraphDatasource?
     
     @IBInspectable final var font: UIFont! = UIFont(name: "HelveticaNeue-Light", size: 14)
     @IBInspectable final var textColor: UIColor! = UIColor.lightGrayColor()
@@ -63,7 +63,7 @@ import UIKit
         initializeGraph()
     }
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initializeGraph()
     }
@@ -105,13 +105,13 @@ import UIKit
     
     private func clearLabels() {
         if let labels = titleLabels {
-            for label in titleLabels {
+            for label in labels {
                 label.removeFromSuperview()
             }
             titleLabels = nil
         }
         if let labels = valueLabels {
-            for label in valueLabels {
+            for label in labels {
                 label.removeFromSuperview()
             }
             valueLabels = nil
@@ -123,15 +123,15 @@ import UIKit
     }
     
     private func updateMinMaxValues() {
-        var (minValue, maxValue) = minMaxValues()
+        let (minValue, maxValue) = minMaxValues()
         self.minValue = minValue
         self.maxValue = maxValue
     }
     
     //public to be tested
     public func minMaxValues() -> (GraphPoint, GraphPoint) {
-        var maxValue: GraphPoint = GraphPoint(x: DBL_MIN, y: DBL_MIN)
-        var minValue: GraphPoint = GraphPoint(x: DBL_MAX, y: DBL_MAX)
+        let maxValue: GraphPoint = GraphPoint(x: DBL_MIN, y: DBL_MIN)
+        let minValue: GraphPoint = GraphPoint(x: DBL_MAX, y: DBL_MAX)
         let count = numberOfLines
         for var index = 0; index < count; ++index {
             if let numberOfPoints = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) {
@@ -149,7 +149,7 @@ import UIKit
     }
 
     private func drawLineForIndex(index: Int) {
-        var points: [Point] = normalizedPointsForIndex(index)
+        let points: [Point] = normalizedPointsForIndex(index)
         let color = self.datasource?.lineGraph(lineGraph: self, colorForLineWithIndex: index)
         let lineLayer = LineLayer(points: points)
         lineLayer.strokeColor = color.or(UIColor.randomColor()).CGColor

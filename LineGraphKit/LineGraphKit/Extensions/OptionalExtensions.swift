@@ -9,7 +9,7 @@
 import Foundation
 
 extension Optional {
-    func or(defaultValue: T) -> T {
+    func or(defaultValue: Wrapped) -> Wrapped {
         switch(self) {
         case .None:
             return defaultValue
