@@ -32,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8195C91D1BA35F2800A8D5A1 /* LineGraphKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LineGraphKit.podspec; path = ../../LineGraphKit.podspec; sourceTree = "<group>"; };
 		81B465FF1B40275F001CFA99 /* LineGraphKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LineGraphKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81B466031B40275F001CFA99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81B466041B40275F001CFA99 /* LineGraphKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineGraphKit.h; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 		81B466011B40275F001CFA99 /* LineGraphKit */ = {
 			isa = PBXGroup;
 			children = (
+				8195C91D1BA35F2800A8D5A1 /* LineGraphKit.podspec */,
 				81B466041B40275F001CFA99 /* LineGraphKit.h */,
 				81B466801B402819001CFA99 /* Classes */,
 				81B4668A1B402819001CFA99 /* Extensions */,
