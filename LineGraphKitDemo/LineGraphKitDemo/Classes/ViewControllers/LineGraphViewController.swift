@@ -54,4 +54,14 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
         return UIColor.randomColor()
     }
 
+    func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+        print("X for value: \(value) - position: \(position)")
+        return "x\(value)"
+    }
+    
+    func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+        print("Y for value: \(value) - index: \(index)")
+        return "y\(value)"
+    }
+    
 }

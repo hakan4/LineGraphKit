@@ -14,6 +14,8 @@ public protocol LineGraphDatasource: class {
     func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
     func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
     func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
+    func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
+    func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
 }
 
 
@@ -40,21 +42,21 @@ public protocol LineGraphDatasource: class {
     final private var minValue: GraphPoint!
     final private var maxValue: GraphPoint!
     
-    private var plotHeight: CGFloat {
+    private final var plotHeight: CGFloat {
         return plotLayer.frame.size.height
     }
 
-    private var plotWidth: CGFloat {
+    private final var plotWidth: CGFloat {
         return plotLayer.frame.size.width
     }
 
-    private var numberOfLines: Int {
-        if let count = self.datasource?.numberOfLines(lineGraph: self) {
-            return count
+    private final var numberOfLines: Int {
+        guard let count = self.datasource?.numberOfLines(lineGraph: self) else {
+            return 0
         }
-        return 0
+        return count
     }
-    private var margin: CGFloat {
+    private final var margin: CGFloat {
         return defaultMargin
     }
     
@@ -122,14 +124,14 @@ public protocol LineGraphDatasource: class {
         lineLayers.removeAll(keepCapacity: false)
     }
     
-    private func updateMinMaxValues() {
+    private final func updateMinMaxValues() {
         let (minValue, maxValue) = minMaxValues()
         self.minValue = minValue
         self.maxValue = maxValue
     }
     
     //public to be tested
-    public func minMaxValues() -> (GraphPoint, GraphPoint) {
+    public final func minMaxValues() -> (GraphPoint, GraphPoint) {
         let maxValue: GraphPoint = GraphPoint(x: DBL_MIN, y: DBL_MIN)
         let minValue: GraphPoint = GraphPoint(x: DBL_MAX, y: DBL_MAX)
         let count = numberOfLines
@@ -148,7 +150,7 @@ public protocol LineGraphDatasource: class {
         return (minValue, maxValue)
     }
 
-    private func drawLineForIndex(index: Int) {
+    private final func drawLineForIndex(index: Int) {
         let points: [Point] = normalizedPointsForIndex(index)
         let color = self.datasource?.lineGraph(lineGraph: self, colorForLineWithIndex: index)
         let lineLayer = LineLayer(points: points)
@@ -158,33 +160,34 @@ public protocol LineGraphDatasource: class {
         lineLayer.drawLine()
     }
     
-    private func normalizedPointsForIndex(index: Int) -> [Point] {
+    private final func normalizedPointsForIndex(index: Int) -> [Point] {
+        guard let count = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) else {
+            return []
+        }
         var points: [Point] = []
-        if let count = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) {
-            for var position = 0; position < count; ++position {
-                let graphPoint = self.datasource?.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
-
-                let x: CGFloat = xPositionForValue(graphPoint!.x)
-                let y: CGFloat = yPositionForValue(graphPoint!.y)
-                
-                let point = Point(x: x, y: y)
-                points.append(point)
-            }
+        for var position = 0; position < count; ++position {
+            let graphPoint = self.datasource?.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
+            
+            let x: CGFloat = xPositionForValue(graphPoint!.x)
+            let y: CGFloat = yPositionForValue(graphPoint!.y)
+            
+            let point = Point(x: x, y: y)
+            points.append(point)
         }
         return points
     }
     
-    private func yPositionForValue(value: Double) -> CGFloat {
+    private final func yPositionForValue(value: Double) -> CGFloat {
         let scale = (value - minValue.y) / (maxValue.y - minValue.y)
         return plotHeight * (1.0 - CGFloat(scale))
     }
 
-    private func xPositionForValue(value: Double) -> CGFloat {
+    private final func xPositionForValue(value: Double) -> CGFloat {
         let scale = (value - minValue.x) / (maxValue.x - minValue.x)
         return plotWidth * CGFloat(scale)
     }
     
-    private func createTitleLabels() {
+    private final func createTitleLabels() {
         let count = Int((plotWidth + defaultLabelWidth) / defaultLabelWidth)
         var labels: [UILabel] = []
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
@@ -197,7 +200,8 @@ public protocol LineGraphDatasource: class {
             label.textAlignment = NSTextAlignment.Center
             label.font = font
             label.textColor = textColor
-            label.text = "\(i)"
+            let title = self.datasource?.lineGraph(lineGraph: self, titleForXValue: Double(i), position: labels.count)
+            label.text = title ?? "\(i)"
             labels.append(label)
             addSubview(label)
         }
@@ -205,7 +209,7 @@ public protocol LineGraphDatasource: class {
         titleLabels = labels
     }
     
-    private func createValueLabels() {
+    private final func createValueLabels() {
         let count = Int((plotHeight + defaultLabelHeight) / defaultLabelHeight)
         let labelHeight = (plotHeight + defaultLabelHeight) / CGFloat(count)
         var labels: [UILabel] = []
@@ -220,7 +224,8 @@ public protocol LineGraphDatasource: class {
             label.textColor = textColor
 
             let step = GraphPoint.yStepCalculation(maxValue, minValue: minValue, count: count, i: i)
-            label.text = "\(step)"
+            let title = self.datasource?.lineGraph(lineGraph: self, titleForYValue: step, index: i)
+            label.text = title ?? "\(step)"
             labels.append(label)
             addSubview(label)
         }

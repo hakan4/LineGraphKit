@@ -36,6 +36,12 @@ class LineGraphTests: XCTestCase {
         func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
             return GraphPoint(x: xValues[index][position], y: yValues[index][position])
         }
+        func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+            return nil
+        }
+        func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+            return nil
+        }
     }
     
     override func setUp() {
