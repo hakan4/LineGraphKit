@@ -22,7 +22,7 @@ public protocol LineGraphDatasource: class {
 @IBDesignable public final class LineGraph: UIView {
 
     private let defaultLabelWidth: CGFloat = 45.0
-    private let defaultLabelHeight: CGFloat = 22.0
+    private let defaultLabelHeight: CGFloat = 25.0
     private let defaultAxisMargin: CGFloat = 50.0
     private let defaultMargin: CGFloat = 20.0
     private let defaultMarginTop: CGFloat = 20.0
@@ -85,7 +85,7 @@ public protocol LineGraphDatasource: class {
         super.layoutSubviews()
         let leadingMargin = margin + defaultAxisMargin
         let plotWidth = (frame.width - leadingMargin - margin)
-        let bottomMargin = (2.0 * defaultLabelHeight + defaultMarginBottom)
+        let bottomMargin = (defaultLabelHeight + defaultMarginBottom)
         let plotHeight = (frame.height - bottomMargin - defaultMarginTop)
         plotLayer.frame = CGRect(x: leadingMargin, y: defaultMarginTop, width: plotWidth, height: plotHeight)
     }
@@ -193,7 +193,7 @@ public protocol LineGraphDatasource: class {
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
         for var i = Int(minValue.x); i <= Int(maxValue.x); i += step {
             let x = defaultAxisMargin + xPositionForValue(Double(i))
-            let y = self.frame.height - (2.0 * defaultLabelHeight)
+            let y = self.frame.height - (1.5 * defaultLabelHeight)
             let frame = CGRect(x: x, y: y, width: defaultLabelWidth, height: defaultLabelHeight)
             let label = UILabel(frame: frame)
             label.backgroundColor = UIColor.clearColor()
@@ -222,7 +222,6 @@ public protocol LineGraphDatasource: class {
             label.textAlignment = NSTextAlignment.Center
             label.font = font
             label.textColor = textColor
-
             let step = GraphPoint.yStepCalculation(maxValue, minValue: minValue, count: count, i: i)
             let title = self.datasource?.lineGraph(lineGraph: self, titleForYValue: step, index: i)
             label.text = title ?? "\(step)"

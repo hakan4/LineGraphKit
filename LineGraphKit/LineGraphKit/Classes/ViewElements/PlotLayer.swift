@@ -10,8 +10,22 @@ import UIKit
 
 class PlotLayer: CALayer {
     
+    
+    private var leftBorderLayer: BorderLayer!
+    private var bottomBorderLayer: BorderLayer!
+    
     override init() {
         super.init()
+        leftBorderLayer = BorderLayer()
+        bottomBorderLayer = BorderLayer()
+        addSublayer(bottomBorderLayer)
+        addSublayer(leftBorderLayer)
+    }
+    
+    override func layoutSublayers() {
+        super.layoutSublayers()
+        leftBorderLayer.frame = CGRect(x: 0, y: 0, width: 0.5, height: self.frame.size.height)
+        bottomBorderLayer.frame = CGRect(x: 0, y: self.frame.size.height, width: self.frame.size.width, height: 0.5)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -21,6 +35,7 @@ class PlotLayer: CALayer {
     override init(layer: AnyObject) {
         super.init(layer: layer)
         if let _ = layer as? PlotLayer {
+            
         }
     }
     
@@ -30,6 +45,7 @@ class PlotLayer: CALayer {
     }
     
     func clearLineLayers() {
+        return
         if let subs = sublayers {
             for layer in subs {
                 if let sublayer = layer as? LineLayer {
@@ -37,5 +53,16 @@ class PlotLayer: CALayer {
                 }
             }
         }
+    }
+}
+
+class BorderLayer: CALayer {
+    override init() {
+        super.init()
+        backgroundColor = UIColor.lightGrayColor().CGColor
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
