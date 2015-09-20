@@ -35,7 +35,6 @@ class PlotLayer: CALayer {
     override init(layer: AnyObject) {
         super.init(layer: layer)
         if let _ = layer as? PlotLayer {
-            
         }
     }
     
@@ -64,4 +63,12 @@ class BorderLayer: CALayer {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    
+    override init(layer: AnyObject) {
+        super.init(layer: layer)
+        if let _ = layer as? BorderLayer {
+        }
+    }
+    
 }
