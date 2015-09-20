@@ -108,13 +108,21 @@ public protocol LineGraphDatasource: class {
     private func clearLabels() {
         if let labels = titleLabels {
             for label in labels {
-                label.removeFromSuperview()
+                UIView.animateWithDuration(0.25, animations: { () -> Void in
+                    label.alpha = 0
+                    }, completion: { (_) -> Void in
+                        label.removeFromSuperview()
+                })
             }
             titleLabels = nil
         }
         if let labels = valueLabels {
             for label in labels {
-                label.removeFromSuperview()
+                UIView.animateWithDuration(0.25, animations: { () -> Void in
+                    label.alpha = 0
+                    }, completion: { (_) -> Void in
+                        label.removeFromSuperview()
+                })
             }
             valueLabels = nil
         }
@@ -203,7 +211,12 @@ public protocol LineGraphDatasource: class {
             let title = self.datasource?.lineGraph(lineGraph: self, titleForXValue: Double(i), position: labels.count)
             label.text = title ?? "\(i)"
             labels.append(label)
+            label.alpha = 0
             addSubview(label)
+            UIView.animateWithDuration(0.35) {
+                label.alpha = 1
+            }
+
         }
         
         titleLabels = labels
@@ -226,7 +239,11 @@ public protocol LineGraphDatasource: class {
             let title = self.datasource?.lineGraph(lineGraph: self, titleForYValue: step, index: i)
             label.text = title ?? "\(step)"
             labels.append(label)
+            label.alpha = 0
             addSubview(label)
+            UIView.animateWithDuration(0.35) {
+                label.alpha = 1
+            }
         }
         self.valueLabels = labels
     }
