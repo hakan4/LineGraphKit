@@ -45,7 +45,6 @@ class PlotLayer: CALayer {
     }
     
     func clearLineLayers() {
-        return
         if let subs = sublayers {
             for layer in subs {
                 if let sublayer = layer as? LineLayer {
