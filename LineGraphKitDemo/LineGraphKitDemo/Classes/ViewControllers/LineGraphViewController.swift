@@ -37,6 +37,14 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
         return graphLine.count
     }
     
+    func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String? {
+        return "Not enough points to show graph"
+    }
+    
+    func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
+        return 100
+    }
+    
     func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
         return graphLine[index].count
     }

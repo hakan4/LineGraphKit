@@ -20,6 +20,7 @@ class PlotLayer: CALayer {
         bottomBorderLayer = BorderLayer()
         addSublayer(bottomBorderLayer)
         addSublayer(leftBorderLayer)
+        backgroundColor = UIColor.clearColor().CGColor
     }
     
     override func layoutSublayers() {

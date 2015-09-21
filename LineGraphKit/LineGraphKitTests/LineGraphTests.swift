@@ -8,7 +8,7 @@
 
 import UIKit
 import XCTest
-import LineGraphKit
+@testable import LineGraphKit
 
 class LineGraphTests: XCTestCase {
 
@@ -29,6 +29,12 @@ class LineGraphTests: XCTestCase {
         }
         func numberOfLines(lineGraph lineGraph: LineGraph) -> Int {
             return xValues.count
+        }
+        func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String? {
+            return nil
+        }
+        func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
+            return 0
         }
         func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
             return xValues[index].count

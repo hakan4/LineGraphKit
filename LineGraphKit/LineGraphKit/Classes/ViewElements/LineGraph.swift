@@ -16,6 +16,9 @@ public protocol LineGraphDatasource: class {
     func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
     func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
     func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
+    
+    func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String?
+    func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int
 }
 
 
@@ -28,12 +31,13 @@ public protocol LineGraphDatasource: class {
     private let defaultMarginTop: CGFloat = 20.0
     private let defaultMarginBottom: CGFloat = 20.0
 
-    public final  weak var datasource: LineGraphDatasource?
+    public final weak var datasource: LineGraphDatasource?
     
     @IBInspectable final var font: UIFont! = UIFont(name: "HelveticaNeue-Light", size: 14)
     @IBInspectable final var textColor: UIColor! = UIColor.lightGrayColor()
     
     final private var plotLayer: PlotLayer!
+    final private var messageLabel: UILabel!
     
     final private var valueLabels: [UILabel]!
     final private var titleLabels: [UILabel]!
@@ -79,15 +83,17 @@ public protocol LineGraphDatasource: class {
         let plotLayer = PlotLayer()
         layer.addSublayer(plotLayer)
         self.plotLayer = plotLayer
+        setupMessageLabel()
     }
     
-    override public func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         let leadingMargin = margin + defaultAxisMargin
         let plotWidth = (frame.width - leadingMargin - margin)
         let bottomMargin = (defaultLabelHeight + defaultMarginBottom)
         let plotHeight = (frame.height - bottomMargin - defaultMarginTop)
         plotLayer.frame = CGRect(x: leadingMargin, y: defaultMarginTop, width: plotWidth, height: plotHeight)
+        messageLabel.frame = plotLayer.frame
     }
     
     public func drawGraph() {
@@ -97,12 +103,33 @@ public protocol LineGraphDatasource: class {
         createTitleLabels()
         createValueLabels()
         
+        var successfullyDrawnGraph: Bool = false
         let count = numberOfLines
         CATransaction.begin()
         for var i = 0; i < count; ++i {
-            drawLineForIndex(i)
+            successfullyDrawnGraph = successfullyDrawnGraph || drawLineForIndex(i)
         }
         CATransaction.commit()
+        showMessageLabel(!successfullyDrawnGraph)
+    }
+    
+    private func showMessageLabel(show: Bool) {
+        let title = self.datasource?.notEnoughPointsToShowMessageForLineGraph(lineGraph: self)
+        messageLabel.text = title
+        UIView.animateWithDuration(0.25) {
+            self.messageLabel.alpha = (show ? 1.0 : 0.0)
+        }
+    }
+    
+    private func setupMessageLabel() {
+        let label = UILabel(frame: plotLayer.frame)
+        label.backgroundColor = UIColor.clearColor()
+        label.textAlignment = NSTextAlignment.Center
+        label.font = font
+        label.textColor = textColor
+        label.alpha = 0
+        addSubview(label)
+        self.messageLabel = label
     }
     
     private func clearLabels() {
@@ -138,8 +165,8 @@ public protocol LineGraphDatasource: class {
         self.maxValue = maxValue
     }
     
-    //public to be tested
-    public final func minMaxValues() -> (GraphPoint, GraphPoint) {
+    //to be tested
+    final func minMaxValues() -> (GraphPoint, GraphPoint) {
         let maxValue: GraphPoint = GraphPoint(x: DBL_MIN, y: DBL_MIN)
         let minValue: GraphPoint = GraphPoint(x: DBL_MAX, y: DBL_MAX)
         let count = numberOfLines
@@ -158,14 +185,17 @@ public protocol LineGraphDatasource: class {
         return (minValue, maxValue)
     }
 
-    private final func drawLineForIndex(index: Int) {
-        let points: [Point] = normalizedPointsForIndex(index)
+    private final func drawLineForIndex(index: Int) -> Bool{
+        guard let points: [Point] = normalizedPointsForIndex(index), let minCount = self.datasource?.lineGraph(lineGraph: self, minimumPointsToShowForIndex: index) where points.count > minCount else {
+            return false
+        }
         let color = self.datasource?.lineGraph(lineGraph: self, colorForLineWithIndex: index)
         let lineLayer = LineLayer(points: points)
         lineLayer.strokeColor = color.or(UIColor.randomColor()).CGColor
         plotLayer.addLineLayer(lineLayer)
         lineLayers.append(lineLayer)
         lineLayer.drawLine()
+        return true
     }
     
     private final func normalizedPointsForIndex(index: Int) -> [Point] {
