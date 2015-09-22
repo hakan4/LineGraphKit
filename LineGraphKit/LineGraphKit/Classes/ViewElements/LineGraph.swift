@@ -81,6 +81,7 @@ public protocol LineGraphDatasource: class {
 
     private func initializeGraph() {
         let plotLayer = PlotLayer()
+        plotLayer.hidden = true
         layer.addSublayer(plotLayer)
         self.plotLayer = plotLayer
         setupMessageLabel()
@@ -106,6 +107,7 @@ public protocol LineGraphDatasource: class {
         var successfullyDrawnGraph: Bool = false
         let count = numberOfLines
         CATransaction.begin()
+        plotLayer.hidden = false
         for var i = 0; i < count; ++i {
             successfullyDrawnGraph = successfullyDrawnGraph || drawLineForIndex(i)
         }
