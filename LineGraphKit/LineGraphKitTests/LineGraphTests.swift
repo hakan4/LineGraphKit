@@ -48,6 +48,9 @@ class LineGraphTests: XCTestCase {
         func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
             return nil
         }
+        func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double? {
+            return nil
+        }
     }
     
     override func setUp() {

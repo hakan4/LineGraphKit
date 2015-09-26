@@ -16,7 +16,6 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     private var graphLine: [[Double]]!
     private var yearLine: [[Double]]!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         lineGraph.datasource = self
@@ -42,7 +41,7 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     }
     
     func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
-        return 100
+        return 1
     }
     
     func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
@@ -71,5 +70,7 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
         print("Y for value: \(value) - index: \(index)")
         return "y\(value)"
     }
-    
+    func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double? {
+        return 0.8
+    }
 }

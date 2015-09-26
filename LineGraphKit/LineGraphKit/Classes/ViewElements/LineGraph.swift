@@ -18,6 +18,7 @@ public protocol LineGraphDatasource: class {
     func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
     
     func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String?
+    func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double?
     func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int
 }
 
@@ -109,7 +110,7 @@ public protocol LineGraphDatasource: class {
         CATransaction.begin()
         plotLayer.hidden = false
         for var i = 0; i < count; ++i {
-            successfullyDrawnGraph = successfullyDrawnGraph || drawLineForIndex(i)
+            successfullyDrawnGraph = drawLineForIndex(i) || successfullyDrawnGraph
         }
         CATransaction.commit()
         showMessageLabel(!successfullyDrawnGraph)
@@ -163,8 +164,14 @@ public protocol LineGraphDatasource: class {
     
     private final func updateMinMaxValues() {
         let (minValue, maxValue) = minMaxValues()
-        self.minValue = minValue
-        self.maxValue = maxValue
+        guard let fraction = self.datasource?.fractionForSpacingInLineGraph(lineGraph: self) where fraction >= 0 && fraction <= 1 else {
+            self.minValue = minValue
+            self.maxValue = maxValue
+            return
+        }
+        let addon = (((maxValue.y - minValue.y) / Double(numberOfYLabels())) * fraction)
+        self.minValue = GraphPoint(x: minValue.x, y: max(0, minValue.y - addon))
+        self.maxValue = GraphPoint(x: maxValue.x, y: maxValue.y + addon)
     }
     
     //to be tested
@@ -254,8 +261,12 @@ public protocol LineGraphDatasource: class {
         titleLabels = labels
     }
     
+    private final func numberOfYLabels() -> Int {
+        return Int((plotHeight + defaultLabelHeight) / defaultLabelHeight)
+    }
+    
     private final func createValueLabels() {
-        let count = Int((plotHeight + defaultLabelHeight) / defaultLabelHeight)
+        let count = numberOfYLabels()
         let labelHeight = (plotHeight + defaultLabelHeight) / CGFloat(count)
         var labels: [UILabel] = []
         for var i = 0; i < count; ++i {

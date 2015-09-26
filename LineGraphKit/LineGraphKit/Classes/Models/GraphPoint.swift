@@ -27,7 +27,6 @@ public class GraphPoint: CustomStringConvertible, Equatable {
         return minValue.y + ((Double(count - i - 1) * (maxValue.y - minValue.y)) / Double(count - 1))
     }
     
-    
 }
 public func ==(lhs: GraphPoint, rhs: GraphPoint) -> Bool {
     return lhs.x == rhs.x && lhs.y == lhs.y
