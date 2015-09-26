@@ -235,7 +235,7 @@ public protocol LineGraphDatasource: class {
     }
     
     private final func createTitleLabels() {
-        let count = Int((plotWidth + defaultLabelWidth) / defaultLabelWidth)
+        let count = Int((plotWidth - defaultLabelWidth) / defaultLabelWidth)
         var labels: [UILabel] = []
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
         for var i = Int(minValue.x); i <= Int(maxValue.x); i += step {
