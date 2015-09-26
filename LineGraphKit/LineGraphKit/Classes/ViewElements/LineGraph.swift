@@ -25,7 +25,7 @@ public protocol LineGraphDatasource: class {
 
 @IBDesignable public final class LineGraph: UIView {
 
-    private let defaultLabelWidth: CGFloat = 45.0
+    private let defaultLabelWidth: CGFloat = 50.0
     private let defaultLabelHeight: CGFloat = 25.0
     private let defaultAxisMargin: CGFloat = 50.0
     private let defaultMargin: CGFloat = 20.0
