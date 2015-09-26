@@ -24,7 +24,7 @@ public class GraphPoint: CustomStringConvertible, Equatable {
     }
     
     class func yStepCalculation(maxValue: GraphPoint, minValue: GraphPoint, count: Int, i: Int) -> Double {
-        return (Double(count - i - 1) * (maxValue.y - minValue.y)) / Double(count - 1)
+        return minValue.y + ((Double(count - i - 1) * (maxValue.y - minValue.y)) / Double(count - 1))
     }
     
     

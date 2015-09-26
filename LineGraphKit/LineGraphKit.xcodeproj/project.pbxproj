@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		81B466051B40275F001CFA99 /* LineGraphKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 81B466041B40275F001CFA99 /* LineGraphKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		81B4660B1B40275F001CFA99 /* LineGraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B465FF1B40275F001CFA99 /* LineGraphKit.framework */; };
-		81B466121B40275F001CFA99 /* LineGraphKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B466111B40275F001CFA99 /* LineGraphKitTests.swift */; };
 		81B4668D1B402819001CFA99 /* GraphPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B466821B402819001CFA99 /* GraphPoint.swift */; };
 		81B4668E1B402819001CFA99 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B466831B402819001CFA99 /* Point.swift */; };
 		81B466901B402819001CFA99 /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B466871B402819001CFA99 /* LineGraph.swift */; };
@@ -38,7 +37,6 @@
 		81B466041B40275F001CFA99 /* LineGraphKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineGraphKit.h; sourceTree = "<group>"; };
 		81B4660A1B40275F001CFA99 /* LineGraphKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LineGraphKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81B466101B40275F001CFA99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		81B466111B40275F001CFA99 /* LineGraphKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphKitTests.swift; sourceTree = "<group>"; };
 		81B466821B402819001CFA99 /* GraphPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphPoint.swift; sourceTree = "<group>"; };
 		81B466831B402819001CFA99 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		81B466871B402819001CFA99 /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 			children = (
 				81B466B11B402956001CFA99 /* GraphPointTests.swift */,
 				81B466B21B402956001CFA99 /* LineGraphTests.swift */,
-				81B466111B40275F001CFA99 /* LineGraphKitTests.swift */,
 				81B4660F1B40275F001CFA99 /* Supporting Files */,
 			);
 			path = LineGraphKitTests;
@@ -287,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				81B466B41B402956001CFA99 /* LineGraphTests.swift in Sources */,
-				81B466121B40275F001CFA99 /* LineGraphKitTests.swift in Sources */,
 				81B466B31B402956001CFA99 /* GraphPointTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
