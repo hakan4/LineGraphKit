@@ -91,7 +91,7 @@ public protocol LineGraphDatasource: class {
     public override func layoutSubviews() {
         super.layoutSubviews()
         let leadingMargin = margin + defaultAxisMargin
-        let plotWidth = (frame.width - leadingMargin - margin)
+        let plotWidth = (frame.width - leadingMargin - (2 * margin))
         let bottomMargin = (defaultLabelHeight + defaultMarginBottom)
         let plotHeight = (frame.height - bottomMargin - defaultMarginTop)
         plotLayer.frame = CGRect(x: leadingMargin, y: defaultMarginTop, width: plotWidth, height: plotHeight)
@@ -235,7 +235,7 @@ public protocol LineGraphDatasource: class {
     }
     
     private final func createTitleLabels() {
-        let count = Int((plotWidth - defaultLabelWidth) / defaultLabelWidth)
+        let count = Int((plotWidth + defaultLabelWidth) / defaultLabelWidth)
         var labels: [UILabel] = []
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
         for var i = Int(minValue.x); i <= Int(maxValue.x); i += step {
