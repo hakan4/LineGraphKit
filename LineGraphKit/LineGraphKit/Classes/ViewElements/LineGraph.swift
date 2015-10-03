@@ -178,17 +178,19 @@ public protocol LineGraphDatasource: class {
     final func minMaxValues() -> (GraphPoint, GraphPoint) {
         let maxValue: GraphPoint = GraphPoint(x: DBL_MIN, y: DBL_MIN)
         let minValue: GraphPoint = GraphPoint(x: DBL_MAX, y: DBL_MAX)
+        guard let datasource = self.datasource else {
+            return (minValue, maxValue)
+        }
+        
         let count = numberOfLines
         for var index = 0; index < count; ++index {
-            if let numberOfPoints = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) {
-                for var position = 0; position < numberOfPoints; ++position {
-                    if let point = self.datasource?.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position) {
-                        maxValue.x = max(maxValue.x, point.x)
-                        maxValue.y = max(maxValue.y, point.y)
-                        minValue.x = min(minValue.x, point.x)
-                        minValue.y = min(minValue.y, point.y)
-                    }
-                }
+            let numberOfPoints = datasource.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index)
+            for var position = 0; position < numberOfPoints; ++position {
+                let point = datasource.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
+                maxValue.x = max(maxValue.x, point.x)
+                maxValue.y = max(maxValue.y, point.y)
+                minValue.x = min(minValue.x, point.x)
+                minValue.y = min(minValue.y, point.y)
             }
         }
         return (minValue, maxValue)
