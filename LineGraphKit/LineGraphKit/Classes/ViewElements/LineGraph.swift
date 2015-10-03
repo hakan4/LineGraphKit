@@ -238,10 +238,11 @@ public protocol LineGraphDatasource: class {
     
     private final func createTitleLabels() {
         let count = Int((plotWidth + defaultLabelWidth) / defaultLabelWidth)
+        let additionalLeftSpacing: CGFloat = -3.0
         var labels: [UILabel] = []
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
         for var i = Int(minValue.x); i <= Int(maxValue.x); i += step {
-            let x = defaultAxisMargin + xPositionForValue(Double(i))
+            let x = defaultAxisMargin + xPositionForValue(Double(i)) + additionalLeftSpacing
             let y = self.frame.height - (1.5 * defaultLabelHeight)
             let frame = CGRect(x: x, y: y, width: defaultLabelWidth, height: defaultLabelHeight)
             let label = UILabel(frame: frame)
