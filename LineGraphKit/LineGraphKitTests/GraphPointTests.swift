@@ -151,7 +151,7 @@ class GraphPointTests: XCTestCase {
         
         let count: Int = 3
         let index: Int = 1
-        let expectedValue: Double = (maxY - minY) / 2.0
+        let expectedValue: Double = (maxY - minY) / 2.0 + minY
         
         let minValue = GraphPoint(x: minX, y: minY)
         let maxValue = GraphPoint(x: maxX, y: maxY)
