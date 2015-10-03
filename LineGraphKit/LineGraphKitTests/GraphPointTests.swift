@@ -20,6 +20,24 @@ class GraphPointTests: XCTestCase {
         super.tearDown()
     }
 
+    func test_description_format_return_description() {
+        let x: Double = 0
+        let y: Double = 1
+        let point = GraphPoint(x: x, y: y)
+        
+        let expectedResult = "{x: \(x), y: \(y)}"
+        
+        XCTAssertEqual(point.description, expectedResult)
+    }
+    
+    func test_init_return_graphpoint_default_zero_values() {
+        let expectedDefaultValue: Double = 0
+        let point = GraphPoint()
+        
+        XCTAssertEqual(point.x, expectedDefaultValue)
+        XCTAssertEqual(point.y, expectedDefaultValue)
+    }
+
     func test_init_return_graphpoint() {
         let x: Double = 0
         let y: Double = 1
