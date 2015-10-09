@@ -19,8 +19,8 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     override func viewDidLoad() {
         super.viewDidLoad()
         lineGraph.datasource = self
-        graphLine = [[1,5,6,2,4,3,8,4,3,2,5,7,8], Array([1,5,6,2,4,3,8,4,3,2,5,7,8].reverse()), [14,3,12,5,7,18], [6,2,3,5,2,7], [1,10,1]]
-        yearLine = [[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2005,2006,2007,2008,2009,2010], [2009,2010,2011,2012,2013,2014],[2000,2010,2011]]
+        graphLine = []//[[1,5,6,2,4,3,8,4,3,2,5,7,8], Array([1,5,6,2,4,3,8,4,3,2,5,7,8].reverse()), [14,3,12,5,7,18], [6,2,3,5,2,7], [1,10,1]]
+        yearLine = []//[[2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013], [2005,2006,2007,2008,2009,2010], [2009,2010,2011,2012,2013,2014],[2000,2010,2011]]
         
 /*        graphLine = [[1,2,1,2,1,2,1,2]]
         yearLine = [[2000,2001,2002,2003,2004,2005,2006,2007]]*/
@@ -37,7 +37,7 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     }
     
     func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String? {
-        return "Not enough points to show graph"
+        return "Not enough points to show graph, this is a slightly longer text for testing"
     }
     
     func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {

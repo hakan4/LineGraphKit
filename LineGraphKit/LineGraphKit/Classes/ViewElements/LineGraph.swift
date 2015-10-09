@@ -31,21 +31,22 @@ public protocol LineGraphDatasource: class {
     private let defaultMargin: CGFloat = 20.0
     private let defaultMarginTop: CGFloat = 20.0
     private let defaultMarginBottom: CGFloat = 20.0
+    private let defaultLabelPadding: CGFloat = 5.0
 
     public final weak var datasource: LineGraphDatasource?
     
     @IBInspectable final var font: UIFont! = UIFont(name: "HelveticaNeue-Light", size: 14)
     @IBInspectable final var textColor: UIColor! = UIColor.lightGrayColor()
     
-    final private var plotLayer: PlotLayer!
-    final private var messageLabel: UILabel!
+    private final var plotLayer: PlotLayer!
+    private final var messageLabel: UILabel!
     
-    final private var valueLabels: [UILabel]!
-    final private var titleLabels: [UILabel]!
-    final private lazy var lineLayers: [LineLayer] = []
+    private final var valueLabels: [UILabel]!
+    private final var titleLabels: [UILabel]!
+    private final lazy var lineLayers: [LineLayer] = []
     
-    final private var minValue: GraphPoint!
-    final private var maxValue: GraphPoint!
+    private final var minValue: GraphPoint!
+    private final var maxValue: GraphPoint!
     
     private final var plotHeight: CGFloat {
         return plotLayer.frame.size.height
@@ -55,6 +56,9 @@ public protocol LineGraphDatasource: class {
         return plotLayer.frame.size.width
     }
 
+    private final var hasValidValues: Bool {
+        return numberOfLines > 0
+    }
     private final var numberOfLines: Int {
         guard let count = self.datasource?.numberOfLines(lineGraph: self) else {
             return 0
@@ -95,7 +99,7 @@ public protocol LineGraphDatasource: class {
         let bottomMargin = (defaultLabelHeight + defaultMarginBottom)
         let plotHeight = (frame.height - bottomMargin - defaultMarginTop)
         plotLayer.frame = CGRect(x: leadingMargin, y: defaultMarginTop, width: plotWidth, height: plotHeight)
-        messageLabel.frame = plotLayer.frame
+        messageLabel.frame = CGRect(x: plotLayer.frame.origin.x + defaultLabelPadding, y: plotLayer.frame.origin.y + defaultLabelPadding, width: plotLayer.frame.size.width - 2 * defaultLabelPadding, height: plotLayer.frame.size.height - 2 * defaultLabelPadding)
     }
     
     public func drawGraph() {
@@ -131,6 +135,8 @@ public protocol LineGraphDatasource: class {
         label.font = font
         label.textColor = textColor
         label.alpha = 0
+        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        label.numberOfLines = 0
         addSubview(label)
         self.messageLabel = label
     }
@@ -237,6 +243,9 @@ public protocol LineGraphDatasource: class {
     }
     
     private final func createTitleLabels() {
+        if !hasValidValues {
+            return
+        }
         let count = Int((plotWidth + defaultLabelWidth) / defaultLabelWidth)
         let additionalLeftSpacing: CGFloat = -3.0
         var labels: [UILabel] = []
@@ -269,6 +278,9 @@ public protocol LineGraphDatasource: class {
     }
     
     private final func createValueLabels() {
+        if !hasValidValues {
+            return
+        }
         let count = numberOfYLabels()
         let labelHeight = (plotHeight + defaultLabelHeight) / CGFloat(count)
         var labels: [UILabel] = []
