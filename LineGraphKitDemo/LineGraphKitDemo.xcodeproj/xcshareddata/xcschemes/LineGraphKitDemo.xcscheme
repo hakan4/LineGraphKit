@@ -80,6 +80,16 @@
                ReferencedContainer = "container:LineGraphKitDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "81B466091B40275F001CFA99"
+               BuildableName = "LineGraphKitTests.xctest"
+               BlueprintName = "LineGraphKitTests"
+               ReferencedContainer = "container:../LineGraphKit/LineGraphKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
