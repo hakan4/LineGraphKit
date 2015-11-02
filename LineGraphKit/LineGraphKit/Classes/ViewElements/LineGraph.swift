@@ -238,7 +238,8 @@ public protocol LineGraphDatasource: class {
     }
 
     private final func xPositionForValue(value: Double) -> CGFloat {
-        let scale = (value - minValue.x) / (maxValue.x - minValue.x)
+        let delta = maxValue.x - minValue.x
+        let scale = delta <= 0 ? 0.5 : (value - minValue.x) / delta
         return plotWidth * CGFloat(scale)
     }
     
