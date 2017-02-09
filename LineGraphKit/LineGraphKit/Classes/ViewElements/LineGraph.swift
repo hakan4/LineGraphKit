@@ -10,12 +10,12 @@ import UIKit
 
 public protocol LineGraphDatasource: class {
     func numberOfLines(lineGraph: LineGraph) -> Int
-    func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
-    func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
-    func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
-    func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
-    func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
-    func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
+    func lineGraph(_ lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
+    func lineGraph(_ lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
+    func lineGraph(_ lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
+    func lineGraph(_ lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
+    func lineGraph(_ lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
+    func lineGraph(_ lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
     
     func notEnoughPointsToShowMessageForLineGraph(lineGraph: LineGraph) -> String?
     func fractionForSpacingInLineGraph(lineGraph: LineGraph) -> Double?
@@ -190,9 +190,10 @@ public protocol LineGraphDatasource: class {
         
         let count = numberOfLines
         for index in 0 ..< count {
-            let numberOfPoints = datasource.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index)
+            
+            let numberOfPoints = datasource.lineGraph(self, numberOfPointsForLineWithIndex: index)
             for position in 0 ..< numberOfPoints {
-                let point = datasource.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
+                let point = datasource.lineGraph(self, pointForLineWithIndex: index, position: position)
                 maxValue.x = max(maxValue.x, point.x)
                 maxValue.y = max(maxValue.y, point.y)
                 minValue.x = min(minValue.x, point.x)
@@ -207,7 +208,8 @@ public protocol LineGraphDatasource: class {
         guard let minCount = self.datasource?.lineGraph(lineGraph: self, minimumPointsToShowForIndex: index), points.count > minCount else {
             return false
         }
-        let color = self.datasource?.lineGraph(lineGraph: self, colorForLineWithIndex: index)
+        
+        let color = self.datasource?.lineGraph(self, colorForLineWithIndex: index)
         let lineLayer = LineLayer(points: points)
         lineLayer.strokeColor = color.or(UIColor.randomColor()).cgColor
         plotLayer.addLineLayer(lineLayer)
@@ -217,12 +219,12 @@ public protocol LineGraphDatasource: class {
     }
     
     fileprivate final func normalizedPointsForIndex(_ index: Int) -> [Point] {
-        guard let count = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) else {
+        guard let count = self.datasource?.lineGraph(self, numberOfPointsForLineWithIndex: index) else {
             return []
         }
         var points: [Point] = []
         for position in 0 ..< count {
-            let graphPoint = self.datasource?.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
+            let graphPoint = self.datasource?.lineGraph(self, pointForLineWithIndex: index, position: position)
             
             let x: CGFloat = xPositionForValue(graphPoint!.x)
             let y: CGFloat = yPositionForValue(graphPoint!.y)
@@ -262,7 +264,7 @@ public protocol LineGraphDatasource: class {
             label.textAlignment = NSTextAlignment.center
             label.font = font
             label.textColor = textColor
-            let title = self.datasource?.lineGraph(lineGraph: self, titleForXValue: Double(i), position: labels.count)
+            let title = self.datasource?.lineGraph(self, titleForXValue: Double(i), position: labels.count)
             label.text = title ?? "\(i)"
             labels.append(label)
             label.alpha = 0
@@ -297,7 +299,7 @@ public protocol LineGraphDatasource: class {
             label.font = font
             label.textColor = textColor
             let step = GraphPoint.yStepCalculation(maxValue, minValue: minValue, count: count, i: i)
-            let title = self.datasource?.lineGraph(lineGraph: self, titleForYValue: step, index: i)
+            let title = self.datasource?.lineGraph(self, titleForYValue: step, index: i)
             label.text = title ?? "\(step)"
             labels.append(label)
             label.alpha = 0

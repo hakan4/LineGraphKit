@@ -44,29 +44,29 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
         return 1
     }
     
-    func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+    func lineGraph(_ lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
         return graphLine[index].count
     }
 
     
-    func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+    func lineGraph(_ lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
         return GraphPoint(x: yearLine[index][position], y: graphLine[index][position])
     }
     
-    func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+    func lineGraph(_ lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
         return 3
     }
     
-    func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+    func lineGraph(_ lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
         return UIColor.randomColor()
     }
 
-    func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+    func lineGraph(_ lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
         print("X for value: \(value) - position: \(position)")
         return "x\(value)"
     }
     
-    func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+    func lineGraph(_ lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
         print("Y for value: \(value) - index: \(index)")
         return "y\(value)"
     }

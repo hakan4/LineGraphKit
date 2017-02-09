@@ -20,11 +20,10 @@ class LineGraphTests: XCTestCase {
             self.xValues = xValues
             self.yValues = yValues
         }
-        
-        func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+        func lineGraph(_ lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
             return 0
         }
-        func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+        func lineGraph(_ lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
             return UIColor.red
         }
         func numberOfLines(lineGraph: LineGraph) -> Int {
@@ -36,16 +35,16 @@ class LineGraphTests: XCTestCase {
         func lineGraph(lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
             return 0
         }
-        func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+        func lineGraph(_ lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
             return xValues[index].count
         }
-        func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+        func lineGraph(_ lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
             return GraphPoint(x: xValues[index][position], y: yValues[index][position])
         }
-        func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+        func lineGraph(_ lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
             return nil
         }
-        func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+        func lineGraph(_ lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
             return nil
         }
         func fractionForSpacingInLineGraph(lineGraph: LineGraph) -> Double? {
