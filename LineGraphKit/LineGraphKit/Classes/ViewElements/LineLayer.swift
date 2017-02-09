@@ -11,18 +11,18 @@ import UIKit
 class LineLayer: CAShapeLayer {
     
     final var animationDuration: Double! = 1
-    private final var points: [Point]!
+    fileprivate final var points: [Point]!
     
     init(points: [Point]) {
         super.init()
-        fillColor = UIColor.clearColor().CGColor
+        fillColor = UIColor.clear.cgColor
         self.points = points
         self.path = createPath()
-        contentsScale = UIScreen.mainScreen().scale
+        contentsScale = UIScreen.main.scale
         setNeedsDisplay()
     }
     
-    override init(layer: AnyObject) {
+    override init(layer: Any) {
         super.init(layer: layer)
         if let sliceLayer = layer as? LineLayer {
             self.animationDuration = sliceLayer.animationDuration
@@ -34,39 +34,42 @@ class LineLayer: CAShapeLayer {
         super.init(coder: aDecoder)
     }
     
-    override func actionForKey(event: String) -> CAAction? {
+    override func action(forKey event: String) -> CAAction? {
         if event == "strokeEnd" {
             return makeAnimationForKey(event)
         }
-        return super.actionForKey(event)
+        return super.action(forKey: event)
     }
     
-    override class func needsDisplayForKey(key: String) -> Bool {
+    override class func needsDisplay(forKey key: String) -> Bool {
         if key == "strokeEnd" {
             return true
         }
-        return super.needsDisplayForKey(key)
+        return super.needsDisplay(forKey: key)
     }
     
-    private func createPath() -> CGPathRef {
-        let path = CGPathCreateMutable()
+    fileprivate func createPath() -> CGPath {
+        let path = CGMutablePath()
         
         var mutablePoints = points
-        let initialPoint = mutablePoints.removeAtIndex(0)
-        CGPathMoveToPoint(path, nil, initialPoint.x, initialPoint.y)
-        for point in mutablePoints {
-            CGPathAddLineToPoint(path, nil, point.x, point.y)
+        mutablePoints?.remove(at: 0)
+        if var mutablePoints = mutablePoints {
+            let initialPoint = mutablePoints.remove(at: 0)
+            path.move(to: CGPoint(x: initialPoint.x, y: initialPoint.y))
+            for point in mutablePoints {
+                path.addLine(to: CGPoint(x: point.x, y: point.y))
+            }
         }
         return path
     }
     
-    private func makeAnimationForKey(key: String) -> CABasicAnimation {
+    fileprivate func makeAnimationForKey(_ key: String) -> CABasicAnimation {
         let animation = CABasicAnimation(keyPath: key)
-        animation.fromValue = self.presentationLayer()?.valueForKeyPath(key)
-        animation.toValue = self.valueForKeyPath(key)
+        animation.fromValue = self.presentation()?.value(forKeyPath: key)
+        animation.toValue = self.value(forKeyPath: key)
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation.duration = animationDuration
-        animation.removedOnCompletion = false
+        animation.isRemovedOnCompletion = false
         animation.fillMode = kCAFillModeForwards
         return animation
     }

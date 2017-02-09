@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class GraphPoint: CustomStringConvertible, Equatable {
+open class GraphPoint: CustomStringConvertible, Equatable {
     final public var x: Double = 0.0
     final public var y: Double = 0.0
     
-    public var description: String {
+    open var description: String {
         return "{x: \(x), y: \(y)}"
     }
     
@@ -23,7 +23,7 @@ public class GraphPoint: CustomStringConvertible, Equatable {
         self.y = y
     }
     
-    class func yStepCalculation(maxValue: GraphPoint, minValue: GraphPoint, count: Int, i: Int) -> Double {
+    class func yStepCalculation(_ maxValue: GraphPoint, minValue: GraphPoint, count: Int, i: Int) -> Double {
         return minValue.y + ((Double(count - i - 1) * (maxValue.y - minValue.y)) / Double(count - 1))
     }
     

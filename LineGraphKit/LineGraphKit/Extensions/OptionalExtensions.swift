@@ -9,11 +9,11 @@
 import Foundation
 
 extension Optional {
-    func or(defaultValue: Wrapped) -> Wrapped {
+    func or(_ defaultValue: Wrapped) -> Wrapped {
         switch(self) {
-        case .None:
+        case .none:
             return defaultValue
-        case .Some(let value):
+        case .some(let value):
             return value
         }
     }

@@ -11,10 +11,10 @@ import LineGraphKit
 
 class LineGraphViewController: UIViewController, LineGraphDatasource {
 
-    @IBOutlet private weak var lineGraph: LineGraph!
+    @IBOutlet fileprivate weak var lineGraph: LineGraph!
     
-    private var graphLine: [[Double]]!
-    private var yearLine: [[Double]]!
+    fileprivate var graphLine: [[Double]]!
+    fileprivate var yearLine: [[Double]]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,50 +27,50 @@ class LineGraphViewController: UIViewController, LineGraphDatasource {
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         lineGraph.drawGraph()
     }
     
-    func numberOfLines(lineGraph lineGraph: LineGraph) -> Int {
+    func numberOfLines(lineGraph: LineGraph) -> Int {
         return graphLine.count
     }
     
-    func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String? {
+    func notEnoughPointsToShowMessageForLineGraph(lineGraph: LineGraph) -> String? {
         return "Not enough points to show graph, this is a slightly longer text for testing"
     }
     
-    func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
+    func lineGraph(lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
         return 1
     }
     
-    func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+    func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
         return graphLine[index].count
     }
 
     
-    func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+    func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
         return GraphPoint(x: yearLine[index][position], y: graphLine[index][position])
     }
     
-    func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+    func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
         return 3
     }
     
-    func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+    func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
         return UIColor.randomColor()
     }
 
-    func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+    func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
         print("X for value: \(value) - position: \(position)")
         return "x\(value)"
     }
     
-    func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+    func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
         print("Y for value: \(value) - index: \(index)")
         return "y\(value)"
     }
-    func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double? {
+    func fractionForSpacingInLineGraph(lineGraph: LineGraph) -> Double? {
         return 0.8
     }
 }

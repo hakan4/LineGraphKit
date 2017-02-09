@@ -9,68 +9,68 @@
 import UIKit
 
 public protocol LineGraphDatasource: class {
-    func numberOfLines(lineGraph lineGraph: LineGraph) -> Int
-    func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
-    func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
-    func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
-    func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
-    func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
-    func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
+    func numberOfLines(lineGraph: LineGraph) -> Int
+    func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int
+    func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor
+    func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint
+    func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double
+    func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String?
+    func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String?
     
-    func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String?
-    func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double?
-    func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int
+    func notEnoughPointsToShowMessageForLineGraph(lineGraph: LineGraph) -> String?
+    func fractionForSpacingInLineGraph(lineGraph: LineGraph) -> Double?
+    func lineGraph(lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int
 }
 
 
 @IBDesignable public final class LineGraph: UIView {
 
-    private let defaultLabelWidth: CGFloat = 50.0
-    private let defaultLabelHeight: CGFloat = 25.0
-    private let defaultAxisMargin: CGFloat = 50.0
-    private let defaultMargin: CGFloat = 20.0
-    private let defaultMarginTop: CGFloat = 20.0
-    private let defaultMarginBottom: CGFloat = 20.0
-    private let defaultLabelPadding: CGFloat = 5.0
+    fileprivate let defaultLabelWidth: CGFloat = 50.0
+    fileprivate let defaultLabelHeight: CGFloat = 25.0
+    fileprivate let defaultAxisMargin: CGFloat = 50.0
+    fileprivate let defaultMargin: CGFloat = 20.0
+    fileprivate let defaultMarginTop: CGFloat = 20.0
+    fileprivate let defaultMarginBottom: CGFloat = 20.0
+    fileprivate let defaultLabelPadding: CGFloat = 5.0
 
     public final weak var datasource: LineGraphDatasource?
     
     @IBInspectable final var font: UIFont! = UIFont(name: "HelveticaNeue-Light", size: 14)
-    @IBInspectable final var textColor: UIColor! = UIColor.lightGrayColor()
+    @IBInspectable final var textColor: UIColor! = UIColor.lightGray
     
-    private final var plotLayer: PlotLayer!
-    private final var messageLabel: UILabel!
+    fileprivate final var plotLayer: PlotLayer!
+    fileprivate final var messageLabel: UILabel!
     
-    private final var valueLabels: [UILabel]!
-    private final var titleLabels: [UILabel]!
-    private final lazy var lineLayers: [LineLayer] = []
+    fileprivate final var valueLabels: [UILabel]!
+    fileprivate final var titleLabels: [UILabel]!
+    fileprivate final lazy var lineLayers: [LineLayer] = []
     
-    private final var minValue: GraphPoint!
-    private final var maxValue: GraphPoint!
+    fileprivate final var minValue: GraphPoint!
+    fileprivate final var maxValue: GraphPoint!
     
-    private final var plotHeight: CGFloat {
+    fileprivate final var plotHeight: CGFloat {
         return plotLayer.frame.size.height
     }
 
-    private final var plotWidth: CGFloat {
+    fileprivate final var plotWidth: CGFloat {
         return plotLayer.frame.size.width
     }
 
-    private final var hasValidValues: Bool {
+    fileprivate final var hasValidValues: Bool {
         return numberOfLines > 0
     }
-    private final var numberOfLines: Int {
+    fileprivate final var numberOfLines: Int {
         guard let count = self.datasource?.numberOfLines(lineGraph: self) else {
             return 0
         }
         return count
     }
-    private final var margin: CGFloat {
+    fileprivate final var margin: CGFloat {
         return defaultMargin
     }
     
     public init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         initializeGraph()
     }
     
@@ -84,9 +84,9 @@ public protocol LineGraphDatasource: class {
         initializeGraph()
     }
 
-    private func initializeGraph() {
+    fileprivate func initializeGraph() {
         let plotLayer = PlotLayer()
-        plotLayer.hidden = true
+        plotLayer.isHidden = true
         layer.addSublayer(plotLayer)
         self.plotLayer = plotLayer
         setupMessageLabel()
@@ -112,39 +112,39 @@ public protocol LineGraphDatasource: class {
         var successfullyDrawnGraph: Bool = false
         let count = numberOfLines
         CATransaction.begin()
-        plotLayer.hidden = false
-        for var i = 0; i < count; ++i {
+        plotLayer.isHidden = false
+        for i in 0 ..< count {
             successfullyDrawnGraph = drawLineForIndex(i) || successfullyDrawnGraph
         }
         CATransaction.commit()
         showMessageLabel(!successfullyDrawnGraph)
     }
     
-    private func showMessageLabel(show: Bool) {
+    fileprivate func showMessageLabel(_ show: Bool) {
         let title = self.datasource?.notEnoughPointsToShowMessageForLineGraph(lineGraph: self)
         messageLabel.text = title
-        UIView.animateWithDuration(0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
             self.messageLabel.alpha = (show ? 1.0 : 0.0)
-        }
+        }) 
     }
     
-    private func setupMessageLabel() {
+    fileprivate func setupMessageLabel() {
         let label = UILabel(frame: plotLayer.frame)
-        label.backgroundColor = UIColor.clearColor()
-        label.textAlignment = NSTextAlignment.Center
+        label.backgroundColor = UIColor.clear
+        label.textAlignment = NSTextAlignment.center
         label.font = font
         label.textColor = textColor
         label.alpha = 0
-        label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
         label.numberOfLines = 0
         addSubview(label)
         self.messageLabel = label
     }
     
-    private func clearLabels() {
+    fileprivate func clearLabels() {
         if let labels = titleLabels {
             for label in labels {
-                UIView.animateWithDuration(0.25, animations: { () -> Void in
+                UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     label.alpha = 0
                     }, completion: { (_) -> Void in
                         label.removeFromSuperview()
@@ -154,7 +154,7 @@ public protocol LineGraphDatasource: class {
         }
         if let labels = valueLabels {
             for label in labels {
-                UIView.animateWithDuration(0.25, animations: { () -> Void in
+                UIView.animate(withDuration: 0.25, animations: { () -> Void in
                     label.alpha = 0
                     }, completion: { (_) -> Void in
                         label.removeFromSuperview()
@@ -163,14 +163,14 @@ public protocol LineGraphDatasource: class {
             valueLabels = nil
         }
     }
-    private func clearLines() {
+    fileprivate func clearLines() {
         plotLayer.clearLineLayers()
-        lineLayers.removeAll(keepCapacity: false)
+        lineLayers.removeAll(keepingCapacity: false)
     }
     
-    private final func updateMinMaxValues() {
+    fileprivate final func updateMinMaxValues() {
         let (minValue, maxValue) = minMaxValues()
-        guard let fraction = self.datasource?.fractionForSpacingInLineGraph(lineGraph: self) where fraction >= 0 && fraction <= 1 else {
+        guard let fraction = self.datasource?.fractionForSpacingInLineGraph(lineGraph: self), fraction >= 0 && fraction <= 1 else {
             self.minValue = minValue
             self.maxValue = maxValue
             return
@@ -189,9 +189,9 @@ public protocol LineGraphDatasource: class {
         }
         
         let count = numberOfLines
-        for var index = 0; index < count; ++index {
+        for index in 0 ..< count {
             let numberOfPoints = datasource.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index)
-            for var position = 0; position < numberOfPoints; ++position {
+            for position in 0 ..< numberOfPoints {
                 let point = datasource.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
                 maxValue.x = max(maxValue.x, point.x)
                 maxValue.y = max(maxValue.y, point.y)
@@ -202,25 +202,26 @@ public protocol LineGraphDatasource: class {
         return (minValue, maxValue)
     }
 
-    private final func drawLineForIndex(index: Int) -> Bool{
-        guard let points: [Point] = normalizedPointsForIndex(index), let minCount = self.datasource?.lineGraph(lineGraph: self, minimumPointsToShowForIndex: index) where points.count > minCount else {
+    fileprivate final func drawLineForIndex(_ index: Int) -> Bool{
+        let points: [Point] = normalizedPointsForIndex(index)
+        guard let minCount = self.datasource?.lineGraph(lineGraph: self, minimumPointsToShowForIndex: index), points.count > minCount else {
             return false
         }
         let color = self.datasource?.lineGraph(lineGraph: self, colorForLineWithIndex: index)
         let lineLayer = LineLayer(points: points)
-        lineLayer.strokeColor = color.or(UIColor.randomColor()).CGColor
+        lineLayer.strokeColor = color.or(UIColor.randomColor()).cgColor
         plotLayer.addLineLayer(lineLayer)
         lineLayers.append(lineLayer)
         lineLayer.drawLine()
         return true
     }
     
-    private final func normalizedPointsForIndex(index: Int) -> [Point] {
+    fileprivate final func normalizedPointsForIndex(_ index: Int) -> [Point] {
         guard let count = self.datasource?.lineGraph(lineGraph: self, numberOfPointsForLineWithIndex: index) else {
             return []
         }
         var points: [Point] = []
-        for var position = 0; position < count; ++position {
+        for position in 0 ..< count {
             let graphPoint = self.datasource?.lineGraph(lineGraph: self, pointForLineWithIndex: index, position: position)
             
             let x: CGFloat = xPositionForValue(graphPoint!.x)
@@ -232,18 +233,18 @@ public protocol LineGraphDatasource: class {
         return points
     }
     
-    private final func yPositionForValue(value: Double) -> CGFloat {
+    fileprivate final func yPositionForValue(_ value: Double) -> CGFloat {
         let scale = (value - minValue.y) / (maxValue.y - minValue.y)
         return plotHeight * (1.0 - CGFloat(scale))
     }
 
-    private final func xPositionForValue(value: Double) -> CGFloat {
+    fileprivate final func xPositionForValue(_ value: Double) -> CGFloat {
         let delta = maxValue.x - minValue.x
         let scale = delta <= 0 ? 0.5 : (value - minValue.x) / delta
         return plotWidth * CGFloat(scale)
     }
     
-    private final func createTitleLabels() {
+    fileprivate final func createTitleLabels() {
         if !hasValidValues {
             return
         }
@@ -251,13 +252,14 @@ public protocol LineGraphDatasource: class {
         let additionalLeftSpacing: CGFloat = -3.0
         var labels: [UILabel] = []
         let step = max(Int(maxValue.x - minValue.x) / (count - 1), 1)
-        for var i = Int(minValue.x); i <= Int(maxValue.x); i += step {
+        for i in stride(from: Int(minValue.x), to: Int(maxValue.x), by: step) {
+        //for var i = Int(minValue.x); i <= ; i += step {
             let x = defaultAxisMargin + xPositionForValue(Double(i)) + additionalLeftSpacing
             let y = self.frame.height - (1.5 * defaultLabelHeight)
             let frame = CGRect(x: x, y: y, width: defaultLabelWidth, height: defaultLabelHeight)
             let label = UILabel(frame: frame)
-            label.backgroundColor = UIColor.clearColor()
-            label.textAlignment = NSTextAlignment.Center
+            label.backgroundColor = UIColor.clear
+            label.textAlignment = NSTextAlignment.center
             label.font = font
             label.textColor = textColor
             let title = self.datasource?.lineGraph(lineGraph: self, titleForXValue: Double(i), position: labels.count)
@@ -265,33 +267,33 @@ public protocol LineGraphDatasource: class {
             labels.append(label)
             label.alpha = 0
             addSubview(label)
-            UIView.animateWithDuration(0.35) {
+            UIView.animate(withDuration: 0.35, animations: {
                 label.alpha = 1
-            }
+            }) 
 
         }
         
         titleLabels = labels
     }
     
-    private final func numberOfYLabels() -> Int {
+    fileprivate final func numberOfYLabels() -> Int {
         return Int((plotHeight + defaultLabelHeight) / defaultLabelHeight)
     }
     
-    private final func createValueLabels() {
+    fileprivate final func createValueLabels() {
         if !hasValidValues {
             return
         }
         let count = numberOfYLabels()
         let labelHeight = (plotHeight + defaultLabelHeight) / CGFloat(count)
         var labels: [UILabel] = []
-        for var i = 0; i < count; ++i {
+        for i in 0 ..< count {
             let x = margin
             let y = (defaultMarginTop - (defaultLabelHeight / 2.0)) + labelHeight * CGFloat(i)
             let frame = CGRect(x: x, y: y, width: defaultLabelWidth, height: labelHeight)
             let label = UILabel(frame: frame)
-            label.backgroundColor = UIColor.clearColor()
-            label.textAlignment = NSTextAlignment.Center
+            label.backgroundColor = UIColor.clear
+            label.textAlignment = NSTextAlignment.center
             label.font = font
             label.textColor = textColor
             let step = GraphPoint.yStepCalculation(maxValue, minValue: minValue, count: count, i: i)
@@ -300,9 +302,9 @@ public protocol LineGraphDatasource: class {
             labels.append(label)
             label.alpha = 0
             addSubview(label)
-            UIView.animateWithDuration(0.35) {
+            UIView.animate(withDuration: 0.35, animations: {
                 label.alpha = 1
-            }
+            }) 
         }
         self.valueLabels = labels
     }

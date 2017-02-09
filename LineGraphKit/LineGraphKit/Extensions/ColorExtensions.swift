@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIColor {
-    public class func randomColor(alpha: CGFloat = 1) -> UIColor {
+    public class func randomColor(_ alpha: CGFloat = 1) -> UIColor {
         var randomColor : CGFloat {
             return CGFloat(Float(arc4random_uniform(255))/255.0)
         }

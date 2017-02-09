@@ -13,42 +13,42 @@ import XCTest
 class LineGraphTests: XCTestCase {
 
     class MockedLineGraphDataSource: LineGraphDatasource {
-        private var xValues: [[Double]]!
-        private var yValues: [[Double]]!
+        fileprivate var xValues: [[Double]]!
+        fileprivate var yValues: [[Double]]!
         
         init(xValues: [[Double]], yValues: [[Double]]) {
             self.xValues = xValues
             self.yValues = yValues
         }
         
-        func lineGraph(lineGraph lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
+        func lineGraph(lineGraph: LineGraph, animationDurationForLineWithIndex index: Int) -> Double {
             return 0
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
-            return UIColor.redColor()
+        func lineGraph(lineGraph: LineGraph, colorForLineWithIndex index: Int) -> UIColor {
+            return UIColor.red
         }
-        func numberOfLines(lineGraph lineGraph: LineGraph) -> Int {
+        func numberOfLines(lineGraph: LineGraph) -> Int {
             return xValues.count
         }
-        func notEnoughPointsToShowMessageForLineGraph(lineGraph lineGraph: LineGraph) -> String? {
+        func notEnoughPointsToShowMessageForLineGraph(lineGraph: LineGraph) -> String? {
             return nil
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
+        func lineGraph(lineGraph: LineGraph, minimumPointsToShowForIndex index: Int) -> Int {
             return 0
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
+        func lineGraph(lineGraph: LineGraph, numberOfPointsForLineWithIndex index: Int) -> Int {
             return xValues[index].count
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
+        func lineGraph(lineGraph: LineGraph, pointForLineWithIndex index: Int, position: Int) -> GraphPoint {
             return GraphPoint(x: xValues[index][position], y: yValues[index][position])
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
+        func lineGraph(lineGraph: LineGraph, titleForYValue value: Double, index: Int) -> String? {
             return nil
         }
-        func lineGraph(lineGraph lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
+        func lineGraph(lineGraph: LineGraph, titleForXValue value: Double, position: Int) -> String? {
             return nil
         }
-        func fractionForSpacingInLineGraph(lineGraph lineGraph: LineGraph) -> Double? {
+        func fractionForSpacingInLineGraph(lineGraph: LineGraph) -> Double? {
             return nil
         }
     }
